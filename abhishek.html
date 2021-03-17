@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multifunctional Button</title>
+    <script src="https://kit.fontawesome.com/a73d299641.js" crossorigin="anonymous"></script>
+    <style>
+        .multi {
+            width: 200px;
+            height: 200px;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            z-index: 9;
+        }
+        
+        .set1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: move;
+            z-index: 10;
+        }
+        
+        .upload {
+            margin: 10px;
+        }
+        
+        .set2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: move;
+            z-index: 10;
+        }
+        
+        i {
+            color: white;
+            font-size: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="multi" id="check">
+        <div class="set1">
+            <a href="#" class="upload" onclick="checkclick()"><i class="fas fa-cloud-upload-alt"></i></a>
+            <a href="#" class="upload"><i class="fas fa-cloud-upload-alt"></i></a>
+        </div>
+        <div class="set2">
+            <a href="#" class="upload"><i class="fas fa-cloud-upload-alt"></i></a>
+            <a href="#" class="upload"><i class="fas fa-cloud-upload-alt"></i></a>
+        </div>
+
+    </div>
+</body>
+<script>
+    function checkclick() {
+        console.log("checked 1");
+    }
+    var check = document.getElementsByClassName('multi')[0].querySelector('mousedown', console.log("click query"));
+    dragElement(document.getElementById('check'));
+
+    function dragElement(elmnt) {
+        var pos1 = 0,
+            pos2 = 0,
+            pos3 = 0,
+            pos4 = 0;
+        if (document.getElementById(elmnt.id + "header")) {
+            // if present, the header is where you move the DIV from:
+            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+        } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            console.log("clicked");
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+</script>
+
+</html>
